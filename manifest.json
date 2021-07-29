@@ -1,0 +1,9 @@
+{
+    "manifest_version": 2,
+    "name": "RewardsChooser",
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["Content.js"]
+    }
+],
