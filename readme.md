@@ -1,10 +1,10 @@
-##### chrome extesnsion
+##  chrome extesnsion
 
 
-## Get cc data
+#### Get cc data
 
 
 
-## help users decide what card to use on check out
+#### help users decide what card to use on check out
 
 
