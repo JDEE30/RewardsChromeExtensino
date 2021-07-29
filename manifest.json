@@ -6,4 +6,5 @@
         "matches": ["<all_urls>"],
         "js": ["Content.js"]
     }
-],
+]
+};
