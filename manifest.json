@@ -25,10 +25,10 @@
     "js": [ "amazon-cart.js" ],
     "matches": [ "https://www.amazon.com/gp/cart*" ]
   }
-  
+  /// url match any... code for this in will smith ext
   ],
   "icons": {
-   
+   /// we need new icon for this
 
   }
 }

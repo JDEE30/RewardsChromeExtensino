@@ -10,7 +10,14 @@
         html {
   font-size: 0.8rem;
 }
-        </style>
+
+#top, #top2, #middle, #middle2, #bottom, body {
+    background-color: #FFF1E3 !important; 
+    border-bottom: 0 none;
+    border-top: 0 none;
+}
+       
+       </style>
     <head>
         <script src="jquery-3.4.1.min.js"></script>
         <script src="popup.js"></script>
@@ -18,28 +25,29 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <body>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav id="top" class="navbar navbar-expand-lg navbar-light">
  		<h5>Rewards Extension <small class="text-muted">Settings and Features</small></h5>
 	</nav>
     
     <ul class="list-group">
 
-    <li class="list-group-item">
+    <li id="top2" class="list-group-item">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="global" value="option1">
             <label class="form-check-label" for="global">Enable Rewards Extension</label>
         </div>
     </li>
 
-    <li class="list-group-item">
+    <li id="middle" class="list-group-item">
         <h5>Calculate rewards</h5>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="tax" value="option1">
             <label class="form-check-label" for="tax">Estimate rewards amount</label>
+            <img src="./assets/Rectangle 4.png" width="25%" height="25%">
         </div>
     </li> 
       
-    <li class="list-group-item">
+    <li id="middle2" class="list-group-item">
         <h5>Limit order</h5>
         <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" id="budget" value="option1">
@@ -50,14 +58,11 @@
             <label class="form-check-label" for="card">Show credit card limit</label>
         </div>
     </li>
-    <li class="list-group-item">
+    <li id="bottom" class="list-group-item">
         <button id="save" type="submit" class="btn btn-primary mb-2">Save</button>
         <a href="login.html" id="login" type="submit" class="btn btn-light mb-2">Login with your bank</a> <!-- Capitol one-->
-        <div id="save-alert" class="alert alert-success" role="alert">Settings Saved</div>
-        
+        <div id="save-alert" class="alert alert-success" role="alert">Settings Saved</div>        
     </li>
-
-    </ul>
- 
+    </ul> 
 	</body>
 </html>
