@@ -18,7 +18,7 @@ This is still in beta, I plan to have it complete for a few weeks...
 
 Don't use it as a working extension untill this readme.md is updated please.
 
-
+    
 ###### Explanation of how extension works
 
 1. You first click the extension in your browser
