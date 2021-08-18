@@ -12,6 +12,11 @@ Chrome extension boilerplate
 - auto reload chrome pages on reload
 
 
+make model for card in model - cc = {
+    cc_num: int,
+    cvv: int,
+    exp: int
+}
 TODO (extension.js)
 1. extract card info
     - save details to local storage/server
