@@ -1,0 +1,55 @@
+{
+  "name": "ts-chrome-extension-starter",
+  "version": "1.0.0",
+  "description": "Typescript Chrome Extension Starter",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run flush && npm run webpack-prod",
+    "start": "npm run webpack-dev",
+    "start-nr": "NO_RELOAD=true npm run webpack-dev",
+    "flush": "rm -rf ./dist/* && mkdir -p ./dist",
+    "webpack-prod": "webpack --config webpack/webpack.prod.js",
+    "webpack-dev": "webpack --config webpack/webpack.dev.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chrome": "~0.0.47",
+    "@types/node": "^12.12.50",
+    "autoprefixer": "^9.6.1",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.2.0",
+    "html-loader": "^1.1.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "prettier": "^1.19.1",
+    "sass-loader": "^7.3.1",
+    "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^3.0.6",
+    "ts-loader": "^5.4.5",
+    "tslint": "^5.20.1",
+    "typescript": "^3.4.5",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-extension-reloader": "^1.1.0",
+    "webpack-merge": "^4.1.5",
+    "webpack-notifier": "^1.8.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{scss,css,html,js,md,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

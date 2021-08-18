@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "ts-chrome-extension-starter",
+  "description": "Typescript Chrome Extension Starter",
+  "version": "1.0",
+  "icons": {
+    "16": "assets/logo.png",
+    "48": "assets/logo.png",
+    "128": "assets/logo.png"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "options_page": "views/options/index.html",
+  "browser_action": {
+    "default_icon": "assets/logo.png",
+    "default_title": "Typescript Chrome Extension Starter",
+    "default_popup": "views/popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content_script.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "web_accessible_resources": [
+    "assets/*"
+  ]
+}
