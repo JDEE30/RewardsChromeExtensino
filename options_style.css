@@ -1,0 +1,13 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 80px;
+    background-color: rebeccapurple;
+    overflow-y: hidden;
+}
