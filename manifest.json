@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "description": "Allows users to choose the best Credit Card based on rewards",
   "name": "Rewards",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "permissions": [
     "storage",
     "tabs",
