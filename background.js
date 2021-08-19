@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.local.storage({
+    chrome.storage.local.set({
         name: "John",
         age: 20
     });
@@ -8,3 +8,5 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.storage.local.get(['name', 'age'], data => {
 
 });
+
+console.log("background.js working");
