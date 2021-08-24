@@ -1,0 +1,30 @@
+{
+	"manifest_version": 2,
+	"name": "Card data autocomplete",
+	"version": "0.1",
+	"description": "Autocomplete card data in amazon",
+	"permissions": ["tabs", "storage", "unlimitedStorage"],
+	"background": {
+		"scripts": ["static/js/background.js"]
+	},
+	"content_scripts": [
+		{
+			"js": ["static/js/content.js"],
+			"matches": ["http://*.amazon.com/*", "https://*.amazon.com/*"],
+			"all_frames": true
+		}
+	],
+	"icons": {
+		"192": "logo128.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"192": "logo128.png"
+		},
+		"default_title": "Popup",
+		"default_popup": "popup.html"
+	},
+	"options_ui": {
+		"page": "options.html"
+	}
+}

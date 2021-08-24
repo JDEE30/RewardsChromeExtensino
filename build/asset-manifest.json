@@ -1,0 +1,18 @@
+{
+  "background.js": "/static/js/background.js",
+  "background.js.map": "/static/js/background.js.map",
+  "content.js": "/static/js/content.js",
+  "content.js.map": "/static/js/content.js.map",
+  "options.css": "/static/css/options.css",
+  "options.js": "/static/js/options.js",
+  "options.js.map": "/static/js/options.js.map",
+  "popup.css": "/static/css/popup.css",
+  "popup.js": "/static/js/popup.js",
+  "popup.js.map": "/static/js/popup.js.map",
+  "options.html": "/options.html",
+  "popup.html": "/popup.html",
+  "static/css/options.css.map": "/static/css/options.css.map",
+  "static/css/popup.css.map": "/static/css/popup.css.map",
+  "static/js/options.js.LICENSE.txt": "/static/js/options.js.LICENSE.txt",
+  "static/js/popup.js.LICENSE.txt": "/static/js/popup.js.LICENSE.txt"
+}
