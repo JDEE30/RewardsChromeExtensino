@@ -24,7 +24,5 @@
 		"default_title": "Popup",
 		"default_popup": "popup.html"
 	},
-	"options_ui": {
-		"page": "options.html"
-	}
+	"options_page": "options.html"
 }

@@ -6,6 +6,9 @@ body {
 .App {
 	width: 320px;
 	height: 410px;
+	background: url("../../assets/side_vector.png") -5% 100% no-repeat,
+		url("../../assets/card_vector.png") 94% 85% no-repeat;
+	background-size: 50px 250px, 134px 200px;
 }
 
 .Main {
