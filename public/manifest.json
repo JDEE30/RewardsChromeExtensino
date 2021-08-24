@@ -10,7 +10,8 @@
 	"content_scripts": [
 		{
 			"js": ["static/js/content.js"],
-			"matches": ["http://*.amazon.com/*", "https://*.amazon.com/*"]
+			"matches": ["http://*.amazon.com/*", "https://*.amazon.com/*"],
+			"all_frames": true
 		}
 	],
 	"icons": {
