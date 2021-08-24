@@ -6,11 +6,27 @@ import { ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
 import CardList from "./CardList";
 import AddCard from "./AddCard";
 import { getDataFromStorage, setDataInStorage } from "../../../common/storageUtil";
+import InfoAlert from "./InfoAlert";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
 	const [storageData, setStorageData] = useState({ card_data: {} });
 	const [editCard, setEditCard] = useState(null);
+	const [alertData, setAlertData] = useState({
+		isOpen: false,
+		hideDuration: 3000,
+		severity: "success",
+		message: "",
+	});
+
+	const handleOpenInfoAlert = (type, message) => {
+		setAlertData({
+			...alertData,
+			isOpen: true,
+			severity: type,
+			message,
+		});
+	};
 
 	useEffect(() => {
 		if (pageNo === CARD_LIST_PAGE) setEditCard(null);
@@ -49,6 +65,7 @@ const Main = () => {
 					editCard={editCard}
 					setEditCard={setEditCard}
 					setPageNo={setPageNo}
+					handleOpenInfoAlert={handleOpenInfoAlert}
 				/>
 			)}
 			{pageNo === ADD_CARD_PAGE && (
@@ -57,9 +74,12 @@ const Main = () => {
 					setStorageData={setStorageData}
 					editCard={editCard}
 					setEditCard={setEditCard}
+					handleOpenInfoAlert={handleOpenInfoAlert}
+					setPageNo={setPageNo}
 				/>
 			)}
 			{<AddCardButton pageNo={pageNo} setPageNo={setPageNo} />}
+			{<InfoAlert alertData={alertData} setAlertData={setAlertData} />}
 		</div>
 	);
 };

@@ -17,7 +17,8 @@ import { setDataInStorage } from "../../../common/storageUtil";
 import NoDataFound from "./NoDataFound";
 
 const CardList = (props) => {
-	const { storageData, setStorageData, editCard, setEditCard, setPageNo } = props;
+	const { storageData, setStorageData, editCard, setEditCard, setPageNo, handleOpenInfoAlert } =
+		props;
 	const [deleteCardConfirmationDialogState, setDeleteCardConfirmationDialogState] =
 		useState(false);
 	const [deleteCard, setDeleteCard] = useState(null);
@@ -65,6 +66,7 @@ const CardList = (props) => {
 		setStorageData(tempStorageData);
 		setDataInStorage(tempStorageData).then(() => {
 			console.log("storage data updated!!");
+			handleOpenInfoAlert("success", "Card deleted successfully!!");
 		});
 	};
 
