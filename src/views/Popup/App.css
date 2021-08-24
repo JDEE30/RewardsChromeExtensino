@@ -24,3 +24,8 @@ body {
 	left: auto;
 	z-index: 1000;
 }
+
+.add-card {
+	padding-left: 15px;
+	padding-right: 15px;
+}
