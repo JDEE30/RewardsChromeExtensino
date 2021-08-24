@@ -1,1 +1,0 @@
-Chrome extension build on react
