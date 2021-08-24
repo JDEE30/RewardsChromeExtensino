@@ -1,30 +1,29 @@
 {
-  "manifest_version": 2,
-  "name": "Extension Name",
-  "version": "0.1",
-  "description": "Some Description",
-  "permissions": [
-  ],
-  "background": {
-    "scripts": ["static/js/background.js"]
-  },
-  "content_scripts": [{
-    "js": [ "static/js/content.js" ],
-    "matches": [
-      "http://*.example.com/*", "https://*.example.com/*"
-    ]
-  }],
-  "icons": {
-    "192": "logo192.png"
-  },
-  "browser_action": {
-    "default_icon": {
-      "192": "logo192.png"
-    },
-    "default_title": "Popup",
-    "default_popup": "popup.html"
-  },
-  "options_ui": {
-    "page": "options.html"
-  }
+	"manifest_version": 2,
+	"name": "Card data autocomplete",
+	"version": "0.1",
+	"description": "Autocomplete card data in amazon",
+	"permissions": ["tabs", "storage", "unlimitedStorage"],
+	"background": {
+		"scripts": ["static/js/background.js"]
+	},
+	"content_scripts": [
+		{
+			"js": ["static/js/content.js"],
+			"matches": ["http://*.amazon.com/*", "https://*.amazon.com/*"]
+		}
+	],
+	"icons": {
+		"192": "logo128.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"192": "logo128.png"
+		},
+		"default_title": "Popup",
+		"default_popup": "popup.html"
+	},
+	"options_ui": {
+		"page": "options.html"
+	}
 }
