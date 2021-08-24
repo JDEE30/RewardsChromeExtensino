@@ -13,9 +13,14 @@ const Main = () => {
 	const [editCard, setEditCard] = useState(null);
 
 	useEffect(() => {
-		getDataFromStorage().then((storageData) => {
-			if (storageData) {
-				setStorageData(storageData);
+		if (pageNo === CARD_LIST_PAGE) setEditCard(null);
+	}, [pageNo]);
+
+	useEffect(() => {
+		getDataFromStorage().then((response) => {
+			if (response) {
+				console.log("Storage Data loaded!!");
+				setStorageData(response);
 			}
 		});
 	}, []);
@@ -38,7 +43,13 @@ const Main = () => {
 			</Appbar>
 			<Toolbar />
 			{pageNo === CARD_LIST_PAGE && (
-				<CardList storageData={storageData} editCard={editCard} setEditCard={setEditCard} />
+				<CardList
+					storageData={storageData}
+					setStorageData={setStorageData}
+					editCard={editCard}
+					setEditCard={setEditCard}
+					setPageNo={setPageNo}
+				/>
 			)}
 			{pageNo === ADD_CARD_PAGE && (
 				<AddCard

@@ -19,14 +19,16 @@ const AddCard = (props) => {
 
 	const handleInputDataSubmit = () => {
 		if (Object.values(inputData).reduce((val, item) => val & (item.length > 0), true)) {
-			setStorageData({
+			console.log(inputData);
+			let tempStorageData = {
 				...storageData,
 				card_data: {
 					...storageData.card_data,
 					[inputData.card_number]: { ...inputData },
 				},
-			});
-			setDataInStorage(storageData).then(() => {
+			};
+			setStorageData(tempStorageData);
+			setDataInStorage(tempStorageData).then(() => {
 				console.log("storage data updated!!");
 			});
 		} else {
