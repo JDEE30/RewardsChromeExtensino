@@ -9,16 +9,8 @@ import { getDataFromStorage, setDataInStorage } from "../../../common/storageUti
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
-	const [storageData, setStorageData] = useState(null);
+	const [storageData, setStorageData] = useState({ card_data: {} });
 	const [editCard, setEditCard] = useState(null);
-
-	useEffect(() => {
-		if (storageData) {
-			setDataInStorage(storageData).then(() => {
-				console.log("storage data saved successfully!!");
-			});
-		}
-	}, [storageData]);
 
 	useEffect(() => {
 		getDataFromStorage().then((storageData) => {
@@ -45,7 +37,9 @@ const Main = () => {
 				</Toolbar>
 			</Appbar>
 			<Toolbar />
-			{pageNo === CARD_LIST_PAGE && <CardList storageData={storageData} />}
+			{pageNo === CARD_LIST_PAGE && (
+				<CardList storageData={storageData} editCard={editCard} setEditCard={setEditCard} />
+			)}
 			{pageNo === ADD_CARD_PAGE && (
 				<AddCard
 					storageData={storageData}

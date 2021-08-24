@@ -6,7 +6,7 @@ const AddCard = (props) => {
 	const { storageData, setStorageData, editCard, setEditCard } = props;
 	const [inputData, setInputData] = useState(
 		editCard
-			? storageData.credit_card_data[editCard]
+			? storageData.card_data[editCard]
 			: {
 					card_number: "",
 					card_cvv: "",
@@ -21,10 +21,13 @@ const AddCard = (props) => {
 		if (Object.values(inputData).reduce((val, item) => val & (item.length > 0), true)) {
 			setStorageData({
 				...storageData,
-				credit_card_data: {
-					...storageData.credit_card_data,
+				card_data: {
+					...storageData.card_data,
 					[inputData.card_number]: { ...inputData },
 				},
+			});
+			setDataInStorage(storageData).then(() => {
+				console.log("storage data updated!!");
 			});
 		} else {
 			console.log("Don't leave any field empty!! ", inputData);
