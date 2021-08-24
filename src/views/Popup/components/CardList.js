@@ -41,6 +41,9 @@ const CardList = (props) => {
 			case "discover":
 				src = "discover.png";
 				break;
+			case "maestro":
+				src = "maestro.png";
+				break;
 			default:
 				break;
 		}

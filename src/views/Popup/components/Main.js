@@ -45,16 +45,10 @@ const Main = () => {
 		<div className="Main">
 			<Appbar color="default">
 				<Toolbar>
-					<img
-						src="creditCard.png"
-						width="55px"
-						height="55px"
-						style={{
-							position: "absolute",
-							zIndex: 1,
-							left: "140px",
-						}}
-					/>
+					<img src="creditCard.png" width="55px" height="55px" />
+					<span style={{ position: "absolute", right: 8 }}>
+						<AddCardButton pageNo={pageNo} setPageNo={setPageNo} />
+					</span>
 				</Toolbar>
 			</Appbar>
 			<Toolbar />
@@ -78,7 +72,6 @@ const Main = () => {
 					setPageNo={setPageNo}
 				/>
 			)}
-			{<AddCardButton pageNo={pageNo} setPageNo={setPageNo} />}
 			{<InfoAlert alertData={alertData} setAlertData={setAlertData} />}
 		</div>
 	);

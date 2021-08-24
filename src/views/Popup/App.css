@@ -16,15 +16,6 @@ body {
 	width: 0px;
 }
 
-.add-card-data-button {
-	position: fixed;
-	bottom: 45px;
-	right: 8px;
-	top: auto;
-	left: auto;
-	z-index: 1000;
-}
-
 .add-card {
 	padding-left: 15px;
 	padding-right: 15px;

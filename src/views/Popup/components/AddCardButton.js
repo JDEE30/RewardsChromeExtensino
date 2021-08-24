@@ -1,4 +1,4 @@
-import { Fab, Tooltip } from "@material-ui/core";
+import { Button, Fab, Tooltip } from "@material-ui/core";
 import React from "react";
 import { ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
 import AddIcon from "@material-ui/icons/Add";
@@ -19,30 +19,24 @@ const AddCardButton = (props) => {
 		<React.Fragment>
 			<div className="add-card-data-button">
 				{pageNo === CARD_LIST_PAGE && (
-					<Fab
-						aria-label="add-card"
-						variant="circular"
+					<Button
 						size="small"
+						variant="contained"
 						color="primary"
 						onClick={() => handleAddCardButtonClick()}
 					>
-						<Tooltip title="Add Card" placement="left">
-							<AddIcon />
-						</Tooltip>
-					</Fab>
+						<b>ADD</b>
+					</Button>
 				)}
 				{pageNo === ADD_CARD_PAGE && (
-					<Fab
-						aria-label="go-back"
-						variant="circular"
+					<Button
 						size="small"
+						variant="contained"
 						color="secondary"
 						onClick={() => handleAddCardButtonClick()}
 					>
-						<Tooltip title="Go back" placement="left">
-							<ArrowBackIcon />
-						</Tooltip>
-					</Fab>
+						<b>BACK</b>
+					</Button>
 				)}
 			</div>
 		</React.Fragment>
