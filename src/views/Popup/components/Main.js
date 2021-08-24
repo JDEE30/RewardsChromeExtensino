@@ -20,7 +20,7 @@ const Main = () => {
 						style={{
 							position: "absolute",
 							zIndex: 1,
-							left: 135,
+							left: "140px",
 						}}
 					/>
 				</Toolbar>
