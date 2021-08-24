@@ -129,10 +129,7 @@ const CardList = (props) => {
 										height="50px"
 									/>
 								}
-								title={`Card Number: ${card.card_number.replace(
-									/\d(?=\d{4})/g,
-									"*"
-								)}`}
+								title={`Number: ${card.card_number.replace(/\d(?=\d{4})/g, "*")}`}
 								subheader={`CVV: ${card.card_cvv}`}
 								action={
 									<span class="control-btn" style={{ visibility: "hidden" }}>

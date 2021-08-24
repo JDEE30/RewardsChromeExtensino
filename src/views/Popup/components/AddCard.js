@@ -54,6 +54,57 @@ const AddCard = (props) => {
 		}
 	};
 
+	const handleCardNumberInput = (e) => {
+		const onlyNums = e.target.value.replace(/[^0-9]/g, "");
+		if (onlyNums.length <= 19) {
+			setInputData({
+				...inputData,
+				card_number: onlyNums,
+			});
+		}
+	};
+
+	const handleCardCvvInput = (e) => {
+		const onlyNums = e.target.value.replace(/[^0-9]/g, "");
+		if (onlyNums.length <= 3) {
+			setInputData({
+				...inputData,
+				card_cvv: onlyNums,
+			});
+		}
+	};
+
+	const handleCardExpiryDateYear = (e) => {
+		const yearInput = e.target.value.replace(/[^0-9]/g, "");
+
+		if (
+			yearInput.length < 4 ||
+			(yearInput.length === 4 &&
+				((inputData.card_expiry_date_month === "" &&
+					parseInt(yearInput) >= new Date().getFullYear()) ||
+					(parseInt(inputData.card_expiry_date_month) >= new Date().getMonth() &&
+						parseInt(yearInput) >= new Date().getFullYear()) ||
+					(parseInt(inputData.card_expiry_date_month) < new Date().getMonth() &&
+						parseInt(yearInput) > new Date().getFullYear())))
+		) {
+			setInputData({
+				...inputData,
+				card_expiry_date_year: yearInput,
+			});
+		}
+	};
+
+	const handleCardExpiryDateMonth = (e) => {
+		const monthInput = e.target.value.replace(/[^0-9]/g, "");
+
+		if (monthInput === "" || parseInt(monthInput) <= 12) {
+			setInputData({
+				...inputData,
+				card_expiry_date_month: monthInput,
+			});
+		}
+	};
+
 	return (
 		<fieldset style={{ borderRadius: "10px", borderColor: "#3f51b5" }}>
 			<legend style={{ fontSize: 16 }}>
@@ -61,38 +112,37 @@ const AddCard = (props) => {
 			</legend>
 			<div class="add-card">
 				<Input
-					disabled={!(editCard === null)}
 					id="card-number"
-					color="default"
-					value={inputData.card_number}
+					required
+					disabled={!(editCard === null)}
+					color={
+						inputData.card_number.length === 0
+							? "default"
+							: inputData.card_number.length >= 7
+							? "primary"
+							: "secondary"
+					}
+					value={inputData.card_number.replace(/\d{4}(?=.)/g, "$& ")}
 					placeholder="Card Number"
 					fullWidth={true}
-					onChange={(e) =>
-						setInputData({
-							...inputData,
-							card_number: e.target.value,
-						})
-					}
+					onChange={(e) => handleCardNumberInput(e)}
 				/>
 				<br />
 				<br />
 				<Input
 					id="card-cvv"
+					required
 					color="default"
 					value={inputData.card_cvv}
 					placeholder="CVV"
 					fullWidth={true}
-					onChange={(e) =>
-						setInputData({
-							...inputData,
-							card_cvv: e.target.value,
-						})
-					}
+					onChange={(e) => handleCardCvvInput(e)}
 				/>
 				<br />
 				<br />
 				<Input
 					id="card-holder-name"
+					required
 					color="default"
 					value={inputData.card_holder_name}
 					placeholder="Card Holder Name"
@@ -109,33 +159,25 @@ const AddCard = (props) => {
 				<b style={{ color: "gray" }}>Expiration date: </b>
 				<br />
 				<Grid container>
-					<Grid xs={5} item>
-						<Input
-							id="card-expiration-date-month"
-							color="default"
-							value={inputData.card_expiry_date_month}
-							placeholder="Month"
-							onChange={(e) =>
-								setInputData({
-									...inputData,
-									card_expiry_date_month: e.target.value,
-								})
-							}
-						/>
-					</Grid>
-					<Grid xs={1} item></Grid>
 					<Grid xs={6} item>
 						<Input
 							id="card-expiration-date-year"
+							required
 							color="default"
 							value={inputData.card_expiry_date_year}
 							placeholder="Year"
-							onChange={(e) =>
-								setInputData({
-									...inputData,
-									card_expiry_date_year: e.target.value,
-								})
-							}
+							onChange={(e) => handleCardExpiryDateYear(e)}
+						/>
+					</Grid>
+					<Grid xs={1} item></Grid>
+					<Grid xs={5} item>
+						<Input
+							id="card-expiration-date-month"
+							required
+							color="default"
+							value={inputData.card_expiry_date_month}
+							placeholder="Month"
+							onChange={(e) => handleCardExpiryDateMonth(e)}
 						/>
 					</Grid>
 				</Grid>
