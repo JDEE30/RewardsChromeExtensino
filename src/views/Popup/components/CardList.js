@@ -128,7 +128,7 @@ const CardList = (props) => {
 								avatar={
 									<img
 										src={getIconUrlByVendor(card.card_vendor)}
-										width="50px"
+										alt = "Card Vendor"
 										height="50px"
 									/>
 								}
