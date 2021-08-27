@@ -11,7 +11,8 @@ import CategoryList from "./CategoryList";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
-	const [storageData, setStorageData] = useState({ card_data: {} });
+	const [storageData, setStorageData] = useState({ card_data: {}});
+	const [categories, setCategories] = useState([]);
 	const [editCard, setEditCard] = useState(null);
 	const [alertData, setAlertData] = useState({
 		isOpen: false,
@@ -55,8 +56,8 @@ const Main = () => {
 			<Toolbar />
 			{pageNo === CATEGORY_LIST_PAGE && (
 				<CategoryList
-					storageData={storageData}
-					setStorageData={setStorageData}
+					categories={categories}
+					setCategories={setCategories}
 					setPageNo={setPageNo}
 				/>
 			)}
