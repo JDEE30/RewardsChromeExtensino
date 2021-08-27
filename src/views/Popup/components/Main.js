@@ -2,7 +2,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Appbar from "@material-ui/core/AppBar";
 import { useEffect, useState } from "react";
 import AddCardButton from "./AddCardButton";
-import { ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
+import { CATEGORY_LIST_PAGE, ADD_CATEGORY_PAGE, BEST_CARD_PAGE, ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
 import CardList from "./CardList";
 import AddCard from "./AddCard";
 import { getDataFromStorage, setDataInStorage } from "../../../common/storageUtil";
