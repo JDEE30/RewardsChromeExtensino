@@ -7,6 +7,7 @@ import CardList from "./CardList";
 import AddCard from "./AddCard";
 import { getDataFromStorage, setDataInStorage } from "../../../common/storageUtil";
 import InfoAlert from "./InfoAlert";
+import CategoryList from "./CategoryList";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
@@ -52,6 +53,13 @@ const Main = () => {
 				</Toolbar>
 			</Appbar>
 			<Toolbar />
+			{pageNo === CATEGORY_LIST_PAGE && (
+				<CategoryList
+					storageData={storageData}
+					setStorageData={setStorageData}
+					setPageNo={setPageNo}
+				/>
+			)}
 			{pageNo === CARD_LIST_PAGE && (
 				<CardList
 					storageData={storageData}
