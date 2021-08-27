@@ -44,7 +44,7 @@ import { getDataFromStorage } from "./common/storageUtil";
 			let cardData = Object.values(storageData.card_data);
 			if (cardData.length > 0) {
 				let selectedCard = cardData[0];
-				let variableDomId = document.querySelector("input[name='addCreditCardNumber']").id;
+				let variableDomId = document.querySelector("input[name='addCreditCardNumber']")?.id;
 				variableDomId = variableDomId.substring(0, variableDomId.length - 3);
 
 				console.log("generic dom id: ", variableDomId);
