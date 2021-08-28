@@ -8,6 +8,8 @@ import AddCard from "./AddCard";
 import { getDataFromStorage, setDataInStorage } from "../../../common/storageUtil";
 import InfoAlert from "./InfoAlert";
 import CategoryList from "./CategoryList";
+import AddCategory from "./AddCategory";
+import BestCard from "./BestCard";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
@@ -56,6 +58,20 @@ const Main = () => {
 			<Toolbar />
 			{pageNo === CATEGORY_LIST_PAGE && (
 				<CategoryList
+					categories={categories}
+					setCategories={setCategories}
+					setPageNo={setPageNo}
+				/>
+			)}
+			{pageNo === ADD_CATEGORY_PAGE && (
+				<AddCategory
+					categories={categories}
+					setCategories={setCategories}
+					setPageNo={setPageNo}
+				/>
+			)}
+			{pageNo === BEST_CARD_PAGE && (
+				<BestCard
 					categories={categories}
 					setCategories={setCategories}
 					setPageNo={setPageNo}
