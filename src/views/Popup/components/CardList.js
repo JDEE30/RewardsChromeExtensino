@@ -122,13 +122,7 @@ const CardList = (props) => {
 							onMouseLeave={(e) => toggleControlBtnVisibility(e)}
 						>
 							<CardHeader
-								avatar={
-									<img
-										src={getIconUrlByVendor(card.issuer)}
-										width="50px"
-										height="50px"
-									/>
-								}
+								avatar={<img src={getIconUrlByVendor(card.issuer)} width="50px" />}
 								title={`Number: ${card.number.replace(/\d(?=(\d| ){4})/g, "*")}`}
 								subheader={`CVC: ${card.cvc}`}
 								action={

@@ -78,7 +78,7 @@ export function verifyFormData(editCard, storageData, inputData, handleOpenInfoA
 			Payment.fns.validateCardCVC(inputData.cvc) &&
 			Payment.fns.validateCardExpiry(inputData.expiry)
 		) {
-			if (editCard && storageData.card_data[inputData.number]) {
+			if (editCard === null && storageData.card_data[inputData.number]) {
 				console.log("Card already exist!!", inputData);
 				handleOpenInfoAlert("error", "Card already exist!!");
 			} else if (

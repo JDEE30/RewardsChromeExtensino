@@ -11,6 +11,7 @@ import { IconButton, makeStyles } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
 import "./App.css";
+import { PROJECT_NAME } from "../../common/constant";
 
 const useStyles = makeStyles({
 	table: {
@@ -52,9 +53,19 @@ function App() {
 		return src;
 	};
 
-	addStorageChangeListener((oldChanges, newChanges) => {});
+	const storageChangeListener = (changes, area) => {
+		if (area === "local" && PROJECT_NAME in changes) {
+			console.log(
+				"new storage change",
+				changes[PROJECT_NAME].newValue,
+				changes[PROJECT_NAME].oldValue
+			);
+			setStorageData(changes[PROJECT_NAME].newValue);
+		}
+	};
 
 	useEffect(() => {
+		addStorageChangeListener(storageChangeListener);
 		getDataFromStorage().then((response) => {
 			setStorageData(response);
 		});
