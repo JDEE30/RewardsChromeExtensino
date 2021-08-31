@@ -74,7 +74,7 @@ function fillCardData() {
 											.replace(/([^a-z]+)/g, "")
 											.indexOf(it) >=
 											0),
-									true
+									false
 								)
 							).length > 0
 					)[0];
@@ -92,7 +92,7 @@ function fillCardData() {
 											.replace(/([^a-z]+)/g, "")
 											.indexOf(it) >=
 											0),
-									true
+									false
 								)
 							).length > 0
 					)[0];
@@ -110,7 +110,7 @@ function fillCardData() {
 											.replace(/([^a-z]+)/g, "")
 											.indexOf(it) >=
 											0),
-									true
+									false
 								)
 							).length > 0
 					)[0];
@@ -137,7 +137,7 @@ function fillCardData() {
 											.replace(/([^a-z]+)/g, "")
 											.indexOf(it) >=
 											0),
-									true
+									false
 								)
 							).length > 0
 					)[0];
@@ -164,7 +164,7 @@ function fillCardData() {
 											.replace(/([^a-z]+)/g, "")
 											.indexOf(it) >=
 											0),
-									true
+									false
 								)
 							).length > 0
 					)[0];
@@ -191,7 +191,7 @@ function fillCardData() {
 											.replace(/([^a-z]+)/g, "")
 											.indexOf(it) >=
 											0),
-									true
+									false
 								)
 							).length > 0
 					)[0];
