@@ -62,7 +62,7 @@ const CardList = (props) => {
 		let tempStorageData = {
 			...storageData,
 			card_data: Object.entries(storageData.card_data)
-				.filter((card) => card[1].card_number !== deleteCard)
+				.filter((card) => card[1].number !== deleteCard)
 				.reduce((obj, card) => ({ ...obj, [card[0]]: card[1] }), {}),
 		};
 		setStorageData(tempStorageData);
@@ -116,7 +116,7 @@ const CardList = (props) => {
 				<React.Fragment>
 					{Object.values(storageData.card_data).map((card) => (
 						<Card
-							key={card.card_number}
+							key={card.number}
 							style={{ marginBottom: 5 }}
 							onMouseEnter={(e) => toggleControlBtnVisibility(e)}
 							onMouseLeave={(e) => toggleControlBtnVisibility(e)}
@@ -124,19 +124,19 @@ const CardList = (props) => {
 							<CardHeader
 								avatar={
 									<img
-										src={getIconUrlByVendor(card.card_vendor)}
+										src={getIconUrlByVendor(card.issuer)}
 										width="50px"
 										height="50px"
 									/>
 								}
-								title={`Number: ${card.card_number.replace(/\d(?=\d{4})/g, "*")}`}
-								subheader={`CVV: ${card.card_cvv}`}
+								title={`Number: ${card.number.replace(/\d(?=(\d| ){4})/g, "*")}`}
+								subheader={`CVC: ${card.cvc}`}
 								action={
 									<span class="control-btn" style={{ visibility: "hidden" }}>
 										<IconButton
 											size="small"
 											color="primary"
-											onClick={() => handleEditButtonClick(card.card_number)}
+											onClick={() => handleEditButtonClick(card.number)}
 										>
 											<EditIcon />
 										</IconButton>
@@ -144,9 +144,7 @@ const CardList = (props) => {
 										<IconButton
 											size="small"
 											color="secondary"
-											onClick={() =>
-												handleDeleteButtonClick(card.card_number)
-											}
+											onClick={() => handleDeleteButtonClick(card.number)}
 										>
 											<DeleteForeverIcon />
 										</IconButton>

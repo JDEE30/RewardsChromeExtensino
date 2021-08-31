@@ -1,5 +1,16 @@
-import { Button, Grid, Input } from "@material-ui/core";
-import { useState } from "react";
+import {
+	Button,
+	FormControl,
+	Grid,
+	IconButton,
+	Input,
+	InputLabel,
+	makeStyles,
+	MenuItem,
+	Select,
+	Tooltip,
+} from "@material-ui/core";
+import React, { useState } from "react";
 import { CARD_LIST_PAGE } from "../../../common/constant";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
@@ -9,8 +20,10 @@ import {
 	formatCVC,
 	formatExpirationDate,
 	formatFormData,
+	verifyFormData,
 } from "./CardDataUtil";
 import { fns } from "payment";
+import AddCircleOutlined from "@material-ui/icons/AddCircleOutlined";
 
 const AddCard = (props) => {
 	const { storageData, setStorageData, editCard, setEditCard, handleOpenInfoAlert, setPageNo } =
@@ -19,48 +32,36 @@ const AddCard = (props) => {
 		editCard
 			? storageData.card_data[editCard]
 			: {
-				number: "",
-				name: "",
-				expiry: "",
-				cvc: "",
-				issuer: "",
-				rewards: [],
-				focused: "",
-			}
+					number: "",
+					name: "",
+					expiry: "",
+					cvc: "",
+					issuer: "",
+					rewards: [{ category: "", point: "" }],
+					focused: "",
+			  }
 	);
 
 	const categoryData = storageData.category_data;
 
 	const handleInputDataSubmit = () => {
-		if (Object.values(inputData).reduce((val, item) => val & (item.length > 0), true)) {
-			console.log(inputData);
-			if (
-				(editCard === null && storageData.card_data[inputData.number]) ||
-				(editCard && storageData.card_data[editCard].number !== inputData.number)
-			) {
-				console.log("Card already exist!!", inputData);
-				handleOpenInfoAlert("error", "Card already exist!!");
+		if (verifyFormData(editCard, storageData, inputData, handleOpenInfoAlert)) {
+			let tempStorageData = {
+				...storageData,
+				card_data: {
+					...storageData.card_data,
+					[inputData.number]: { ...inputData },
+				},
+			};
+			setStorageData(tempStorageData);
+			console.log("storage data updated!!");
+			if (editCard) {
+				handleOpenInfoAlert("success", "Card edited successfully!!");
 			} else {
-				let tempStorageData = {
-					...storageData,
-					card_data: {
-						...storageData.card_data,
-						[inputData.number]: { ...inputData },
-					},
-				};
-				setStorageData(tempStorageData);
-				console.log("storage data updated!!");
-				if (editCard) {
-					handleOpenInfoAlert("success", "Card edited successfully!!");
-				} else {
-					handleOpenInfoAlert("success", "Card added successfully!!");
-				}
-				setPageNo(CARD_LIST_PAGE);
-				setEditCard(null);
+				handleOpenInfoAlert("success", "Card added successfully!!");
 			}
-		} else {
-			console.log("Don't leave any field empty!! ", inputData);
-			handleOpenInfoAlert("error", "Don't leave any field empty!!");
+			setPageNo(CARD_LIST_PAGE);
+			setEditCard(null);
 		}
 	};
 
@@ -78,15 +79,34 @@ const AddCard = (props) => {
 	};
 
 	const handleInputChange = ({ target }) => {
+		console.log(target);
 		if (target.name === "number") {
 			target.value = formatCreditCardNumber(target.value);
 		} else if (target.name === "expiry") {
 			target.value = formatExpirationDate(target.value);
 		} else if (target.name === "cvc") {
 			target.value = formatCVC(target.value);
+		} else if (target.name === "reward" + target.id) {
+			const temp = inputData.rewards;
+			temp[target.id] = { ...inputData.rewards[target.id], point: target.value };
+			console.log(temp);
+			setInputData({ ...inputData, rewards: [...temp] });
+			return;
+		} else if (target.name === "category" + target.id) {
+			const temp = inputData.rewards;
+			temp[target.id] = { ...inputData.rewards[target.id], category: target.value };
+			console.log(temp);
+			setInputData({ ...inputData, rewards: [...temp] });
+			return;
 		}
-
 		setInputData({ ...inputData, [target.name]: target.value });
+	};
+
+	const handleAddInputClick = () => {
+		setInputData({
+			...inputData,
+			rewards: [...inputData.rewards, { category: "", point: "" }],
+		});
 	};
 
 	return (
@@ -153,12 +173,12 @@ const AddCard = (props) => {
 				<Grid xs={5} item>
 					<Input
 						required
-						id="card-cvv"
+						id="card-cvc"
 						type="tel"
 						name="cvc"
 						autoComplete={false}
-						value={inputData.cvv}
-						placeholder="CVV"
+						value={inputData.cvc}
+						placeholder="CVC"
 						fullWidth={true}
 						pattern="\d{3,4}"
 						onChange={handleInputChange}
@@ -167,40 +187,58 @@ const AddCard = (props) => {
 				</Grid>
 			</Grid>
 			<input type="hidden" name="issuer" value={inputData.issuer} />
+			{inputData.rewards.map((reward, index) => (
+				<React.Fragment>
+					<br />
+					<br />
+					<Grid container key={"card-reward" + index}>
+						<Grid xs={5} item>
+							<FormControl style={{ minWidth: 120 }}>
+								<Select
+									native
+									id={index}
+									name={"category" + index}
+									value={reward.category}
+									onChange={handleInputChange}
+									onFocus={handleInputFocus}
+								>
+									<option value="">Select Category</option>
+									{categoryData.map((category) => (
+										<option value={category}>{category}</option>
+									))}
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid xs={1} item></Grid>
+						<Grid xs={6} item>
+							<Input
+								required
+								id={index}
+								type="tel"
+								name={"reward" + index}
+								autoComplete={false}
+								value={reward.point}
+								placeholder="Reward point"
+								pattern="\d+"
+								onChange={handleInputChange}
+								onFocus={handleInputFocus}
+							/>
+						</Grid>
+					</Grid>
+				</React.Fragment>
+			))}
+			<Tooltip title="Add another" placement="right">
+				<IconButton
+					size="small"
+					color="secondary"
+					onClick={() => handleAddInputClick()}
+					style={{ float: "right" }}
+				>
+					<AddCircleOutlined />
+				</IconButton>
+			</Tooltip>
 			<br />
 			<br />
-			{/* <Grid container>
-				<Grid xs={6} item>
-					<Input
-						required
-						id="card-reward-point"
-						type="tel"
-						name="reward"
-						autoComplete={false}
-						value={inputData.reward}
-						placeholder="Reward point"
-						pattern="\d+"
-						onChange={handleInputChange}
-						onFocus={handleInputFocus}
-					/>
-				</Grid>
-				<Grid xs={1} item></Grid>
-				<Grid xs={5} item>
-					<InputLabel id="card-category-label">Age</InputLabel>
-					<Select
-						required
-						labelId="card-category-label"
-						id="card-category"
-						name="category"
-						value={inputData.category}
-						onChange={handleChange}
-					>
-						<MenuItem value={10}>Ten</MenuItem>
-					</Select>
-				</Grid>
-			</Grid>
-			<br />
-			<br /> */}
 			<Button
 				variant="contained"
 				size="small"

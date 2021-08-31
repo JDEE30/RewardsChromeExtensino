@@ -62,3 +62,44 @@ export function formatExpirationDate(value) {
 export function formatFormData(data) {
 	return Object.keys(data).map((d) => `${d}: ${data[d]}`);
 }
+
+export function verifyFormData(editCard, storageData, inputData, handleOpenInfoAlert) {
+	if (
+		Object.values(inputData).reduce(
+			(val, item) =>
+				val &
+				(["number", "name", "cvc", "expiry", "issuer"].indexOf(item) < 0 ||
+					item.length > 0),
+			true
+		)
+	) {
+		if (
+			Payment.fns.validateCardNumber(inputData.number) &&
+			Payment.fns.validateCardCVC(inputData.cvc) &&
+			Payment.fns.validateCardExpiry(inputData.expiry)
+		) {
+			if (editCard && storageData.card_data[inputData.number]) {
+				console.log("Card already exist!!", inputData);
+				handleOpenInfoAlert("error", "Card already exist!!");
+			} else if (
+				inputData.rewards.filter(
+					(reward) =>
+						(reward.category.length === 0 && reward.point.length >= 0) ||
+						(reward.category.length >= 0 && reward.point.length === 0)
+				).length > 0
+			) {
+				console.log("Invalid reward data!!", inputData);
+				handleOpenInfoAlert("error", "Invalid reward data!!");
+			} else {
+				return true;
+			}
+		} else {
+			console.log("Invalid card data!!", inputData);
+			handleOpenInfoAlert("error", "Invalid card data!!");
+		}
+	} else {
+		console.log("Don't leave any field empty!! ", inputData);
+		handleOpenInfoAlert("error", "Don't leave any field empty!!");
+	}
+	return false;
+}

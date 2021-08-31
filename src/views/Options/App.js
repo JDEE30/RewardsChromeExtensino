@@ -14,7 +14,7 @@ function App() {
 	const columns = [
 		{ field: "id", headerName: "ID", width: "200" },
 		{ field: "card_number", headerName: "Card Number", width: "200" },
-		{ field: "card_cvv", headerName: "Card CVV", width: "200" },
+		{ field: "card_cvc", headerName: "Card CVC", width: "200" },
 		{ field: "card_vendor", headerName: "Card Vendor", width: "200" },
 		{ field: "card_holder_name", headerName: "Name", width: "200" },
 	];
