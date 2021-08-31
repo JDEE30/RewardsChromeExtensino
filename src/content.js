@@ -20,18 +20,22 @@ import { getDataFromStorage } from "./common/storageUtil";
 			console.log("cardExpiryMonthHtml", cardExpiryMonthHtml);
 			console.log("cardExpiryYearHtml", cardExpiryYearHtml);
 
-			cardNumberInput.value = selectedCard.card_number;
-			cardHolderNameInput.value = selectedCard.card_holder_name;
-			cardExpiryMonthInput.value = parseInt(selectedCard.card_expiry_date_month);
-			cardExpiryYearInput.value = parseInt(selectedCard.card_expiry_date_year);
+			cardNumberInput.value = selectedCard.number;
+			cardHolderNameInput.value = selectedCard.name;
+
+			const month = selectedCard.expiry.split("/")[0];
+			const year = "20" + selectedCard.expiry.split("/")[1];
+
+			cardExpiryMonthInput.value = parseInt(month);
+			cardExpiryYearInput.value = parseInt(year);
 
 			cardExpiryMonthHtml.innerHTML = cardExpiryMonthHtml.innerHTML.replace(
 				cardExpiryMonthHtml.textContent,
-				selectedCard.card_expiry_date_month
+				month
 			);
 			cardExpiryYearHtml.innerHTML = cardExpiryYearHtml.innerHTML.replace(
 				cardExpiryYearHtml.textContent,
-				selectedCard.card_expiry_date_year
+				year
 			);
 
 			console.log("Data added!!");
@@ -41,9 +45,9 @@ import { getDataFromStorage } from "./common/storageUtil";
 	if (URL.indexOf("https://apx-security.amazon.com/cpe/pm/register") >= 0) {
 		console.log("frame found!! ", document);
 		getDataFromStorage().then((storageData) => {
-			let cardData = Object.values(storageData.card_data);
-			if (cardData.length > 0) {
-				let selectedCard = cardData[0];
+			let cardData = storageData.card_data;
+			if (Object.entries(cardData).length > 0) {
+				let selectedCard = cardData[storageData.selected_card];
 				let variableDomId = document.querySelector("input[name='addCreditCardNumber']").id;
 				variableDomId = variableDomId.substring(0, variableDomId.length - 3);
 

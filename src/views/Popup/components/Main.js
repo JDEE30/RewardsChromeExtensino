@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
 	ADD_CARD_PAGE,
 	ADD_CATEGORY_PAGE,
+	BEST_CARD_PAGE,
 	CARD_LIST_PAGE,
 	CATEGORY_LIST_PAGE,
 } from "../../../common/constant";
@@ -12,6 +13,7 @@ import InfoAlert from "./InfoAlert";
 import Navbar from "./Navbar";
 import CategoryList from "./CategoryList";
 import AddCategory from "./AddCategory";
+import BestCard from "./BestCard";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(CATEGORY_LIST_PAGE);
@@ -26,7 +28,7 @@ const Main = () => {
 		card_data: {},
 		category_data: [],
 		selected_category: "",
-		selected_card: {},
+		selected_card: "",
 	});
 
 	const fristTime = useRef(true);
@@ -65,7 +67,11 @@ const Main = () => {
 		<div className="Main">
 			<Navbar pageNo={pageNo} setPageNo={setPageNo} />
 			{pageNo === CATEGORY_LIST_PAGE && (
-				<CategoryList storageData={storageData} setStorageData={setStorageData} />
+				<CategoryList
+					storageData={storageData}
+					setStorageData={setStorageData}
+					setPageNo={setPageNo}
+				/>
 			)}
 			{pageNo === ADD_CATEGORY_PAGE && (
 				<AddCategory
@@ -94,6 +100,9 @@ const Main = () => {
 					handleOpenInfoAlert={handleOpenInfoAlert}
 					setPageNo={setPageNo}
 				/>
+			)}
+			{pageNo === BEST_CARD_PAGE && (
+				<BestCard storageData={storageData} setStorageData={setStorageData} />
 			)}
 			{<InfoAlert alertData={alertData} setAlertData={setAlertData} />}
 		</div>
