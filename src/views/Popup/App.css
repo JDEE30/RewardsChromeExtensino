@@ -1,23 +1,16 @@
 body {
 	margin: 0px;
 	padding: 5px;
+	background: url("../../assets/side_vector.png") -5% 100% no-repeat,
+		url("../../assets/card_vector.png") 94% 85% no-repeat;
+	background-size: 50px 250px, 134px 200px;
+	background-attachment: fixed;
 }
 
 .App {
 	width: 320px;
 	height: 450px;
 	overflow: auto;
-}
-
-.bg-image {
-	display: block;
-	position: absolute;
-	left: 0;
-	top: 0;
-	background: url("../../assets/side_vector.png") -5% 100% no-repeat,
-		url("../../assets/card_vector.png") 94% 85% no-repeat;
-	background-size: 50px 250px, 134px 200px;
-	opacity: 0.5;
 }
 
 .Main {

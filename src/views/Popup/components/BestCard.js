@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Cards from "react-credit-cards";
+import AutorenewIcon from "@material-ui/icons/Autorenew";
 import { sentMessageToBackground } from "../../../common/communicationUtil";
+import { IconButton, Tooltip } from "@material-ui/core";
 
 const BestCard = (props) => {
 	const { storageData, setStorageData } = props;
+	const [cardFocus, setCardFocus] = useState("number");
 
 	let bestCard = storageData.selected_card;
 
@@ -71,10 +74,25 @@ const BestCard = (props) => {
 					<Cards
 						cvc={storageData.card_data[bestCard].cvc}
 						expiry={storageData.card_data[bestCard].expiry}
-						focused={storageData.card_data[bestCard].focus}
+						focused={cardFocus}
 						name={storageData.card_data[bestCard].name}
 						number={storageData.card_data[bestCard].number}
 					/>
+					<br />
+					<br />
+					<center>
+						<Tooltip title="Rotate card" placement="left">
+							<IconButton
+								size="small"
+								color="primary"
+								onClick={() =>
+									setCardFocus(cardFocus === "number" ? "cvc" : "number")
+								}
+							>
+								<AutorenewIcon />
+							</IconButton>
+						</Tooltip>
+					</center>
 				</center>
 			)}
 			{(!bestCard || !storageData.card_data[bestCard]) && (
@@ -82,19 +100,44 @@ const BestCard = (props) => {
 					<h2>Best card for {storageData.selected_category} category is:</h2>
 					<br />
 					{Object.keys(storageData.card_data)[0] && (
-						<Cards
-							cvc={storageData.card_data[Object.keys(storageData.card_data)[0]].cvc}
-							expiry={
-								storageData.card_data[Object.keys(storageData.card_data)[0]].expiry
-							}
-							focused={
-								storageData.card_data[Object.keys(storageData.card_data)[0]].focus
-							}
-							name={storageData.card_data[Object.keys(storageData.card_data)[0]].name}
-							number={
-								storageData.card_data[Object.keys(storageData.card_data)[0]].number
-							}
-						/>
+						<React.Fragment>
+							<Cards
+								cvc={
+									storageData.card_data[Object.keys(storageData.card_data)[0]].cvc
+								}
+								expiry={
+									storageData.card_data[Object.keys(storageData.card_data)[0]]
+										.expiry
+								}
+								focused={
+									storageData.card_data[Object.keys(storageData.card_data)[0]]
+										.focus
+								}
+								name={
+									storageData.card_data[Object.keys(storageData.card_data)[0]]
+										.name
+								}
+								number={
+									storageData.card_data[Object.keys(storageData.card_data)[0]]
+										.number
+								}
+							/>
+							<br />
+							<br />
+							<center>
+								<Tooltip title="Rotate card" placement="left">
+									<IconButton
+										size="small"
+										color="primary"
+										onClick={() =>
+											setCardFocus(cardFocus === "number" ? "cvc" : "number")
+										}
+									>
+										<AutorenewIcon />
+									</IconButton>
+								</Tooltip>
+							</center>
+						</React.Fragment>
 					)}
 					{!Object.keys(storageData.card_data)[0] && <h3>No best card found!!</h3>}
 				</center>

@@ -65,10 +65,17 @@ function fillCardData() {
 				setTimeout(() => {
 					let numberInput = [...document.querySelectorAll("input")].filter(
 						(input) =>
-							[...input.attributes].filter(
-								(item) =>
-									item.value.indexOf("card") >= 0 ||
-									item.value.indexOf("number") >= 0
+							[...input.attributes].filter((item) =>
+								["card", "number", "num", "cardnumber", "ccnumber", "ccnum"].reduce(
+									(value, it) =>
+										value |
+										(item.value
+											.toLowerCase()
+											.replace(/([^a-z]+)/g, "")
+											.indexOf(it) >=
+											0),
+									true
+								)
 							).length > 0
 					)[0];
 
@@ -76,38 +83,117 @@ function fillCardData() {
 
 					let cvcInput = [...document.querySelectorAll("input")].filter(
 						(input) =>
-							[...input.attributes].filter((item) => item.value.indexOf("cvc") >= 0)
-								.length > 0
+							[...input.attributes].filter((item) =>
+								["cvc", "csc", "cccvc", "cccsc", "cardcvc", "cardcsc"].reduce(
+									(value, it) =>
+										value |
+										(item.value
+											.toLowerCase()
+											.replace(/([^a-z]+)/g, "")
+											.indexOf(it) >=
+											0),
+									true
+								)
+							).length > 0
 					)[0];
 
 					if (cvcInput) cvcInput.value = selectedCard.cvc;
 
 					let nameInput = [...document.querySelectorAll("input")].filter(
 						(input) =>
-							[...input.attributes].filter((item) => item.value.indexOf("name") >= 0)
-								.length > 0
+							[...input.attributes].filter((item) =>
+								["name", "ccname", "cardname"].reduce(
+									(value, it) =>
+										value |
+										(item.value
+											.toLowerCase()
+											.replace(/([^a-z]+)/g, "")
+											.indexOf(it) >=
+											0),
+									true
+								)
+							).length > 0
 					)[0];
 					if (nameInput) nameInput.value = selectedCard.name;
 
 					let expiryInput = [...document.querySelectorAll("input")].filter(
 						(input) =>
-							[...input.attributes].filter(
-								(item) => item.value.indexOf("expiry") >= 0
+							[...input.attributes].filter((item) =>
+								[
+									"expiry",
+									"exp",
+									"ccexpiry",
+									"cardexpiry",
+									"ccexp",
+									"cardexp",
+									"expdate",
+									"ccexpdate",
+									"cardexpdate",
+								].reduce(
+									(value, it) =>
+										value |
+										(item.value
+											.toLowerCase()
+											.replace(/([^a-z]+)/g, "")
+											.indexOf(it) >=
+											0),
+									true
+								)
 							).length > 0
 					)[0];
 					if (expiryInput) expiryInput.value = selectedCard.expiry;
 
 					let monthInput = [...document.querySelectorAll("input")].filter(
 						(input) =>
-							[...input.attributes].filter((item) => item.value.indexOf("month") >= 0)
-								.length > 0
+							[...input.attributes].filter((item) =>
+								[
+									"month",
+									"ccmonth",
+									"expirymonth",
+									"expmonth",
+									"ccexpirymonth",
+									"cardexpirymonth",
+									"ccexpmonth",
+									"cardexpmonth",
+									"expdatemonth",
+								].reduce(
+									(value, it) =>
+										value |
+										(item.value
+											.toLowerCase()
+											.replace(/([^a-z]+)/g, "")
+											.indexOf(it) >=
+											0),
+									true
+								)
+							).length > 0
 					)[0];
 					if (monthInput) monthInput.value = selectedCard.expiry.split("/")[0];
 
 					let yearInput = [...document.querySelectorAll("input")].filter(
 						(input) =>
-							[...input.attributes].filter((item) => item.value.indexOf("year") >= 0)
-								.length > 0
+							[...input.attributes].filter((item) =>
+								[
+									"year",
+									"ccyear",
+									"expiryyear",
+									"expyear",
+									"ccexpiryyear",
+									"cardexpiryyear",
+									"ccexpyear",
+									"cardexpyear",
+									"expdateyear",
+								].reduce(
+									(value, it) =>
+										value |
+										(item.value
+											.toLowerCase()
+											.replace(/([^a-z]+)/g, "")
+											.indexOf(it) >=
+											0),
+									true
+								)
+							).length > 0
 					)[0];
 					if (yearInput) yearInput.value = "20" + selectedCard.expiry.split("/")[1];
 				}, 1000);

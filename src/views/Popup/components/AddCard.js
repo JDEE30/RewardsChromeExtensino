@@ -35,17 +35,32 @@ const AddCard = (props) => {
 
 	const handleInputDataSubmit = () => {
 		if (verifyFormData(editCard, storageData, inputData, handleOpenInfoAlert)) {
+			let tempRewardsData = inputData.rewards.filter(
+				(reward) => reward.category.length > 0 && reward.point.length > 0
+			);
+
+			tempRewardsData = Object.entries(
+				tempRewardsData.reduce(
+					(value, reward) => ({
+						...value,
+						[reward.category]: value[reward.category]
+							? Math.max(value[reward.category], reward.point).toString()
+							: reward.point,
+					}),
+					{}
+				)
+			).map((item) => ({
+				category: item[0],
+				point: item[1],
+			}));
+
 			let tempStorageData = {
 				...storageData,
 				card_data: {
 					...storageData.card_data,
 					[inputData.number]: {
 						...inputData,
-						rewards: [
-							...inputData.rewards.filter(
-								(reward) => reward.category.length > 0 && reward.point.length > 0
-							),
-						],
+						rewards: [...tempRewardsData],
 					},
 				},
 			};
