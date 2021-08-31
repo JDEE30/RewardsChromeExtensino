@@ -1,6 +1,6 @@
 import { getDataFromStorage } from "./common/storageUtil";
 
-(function () {
+function fillCardData() {
 	const URL = document.location.href;
 
 	const autoCompleteData = (variableDomId, selectedCard) => {
@@ -39,7 +39,7 @@ import { getDataFromStorage } from "./common/storageUtil";
 			);
 
 			console.log("Data added!!");
-		}, 2000);
+		}, 1000);
 	};
 
 	if (URL.indexOf("https://apx-security.amazon.com/cpe/pm/register") >= 0) {
@@ -53,8 +53,75 @@ import { getDataFromStorage } from "./common/storageUtil";
 
 				console.log("generic dom id: ", variableDomId);
 
-				window.onload = () => autoCompleteData(variableDomId, selectedCard);
+				autoCompleteData(variableDomId, selectedCard);
+			}
+		});
+	} else {
+		getDataFromStorage().then((storageData) => {
+			let cardData = storageData.card_data;
+			if (Object.entries(cardData).length > 0) {
+				let selectedCard = cardData[storageData.selected_card];
+
+				setTimeout(() => {
+					let numberInput = [...document.querySelectorAll("input")].filter(
+						(input) =>
+							[...input.attributes].filter(
+								(item) =>
+									item.value.indexOf("card") >= 0 ||
+									item.value.indexOf("number") >= 0
+							).length > 0
+					)[0];
+
+					if (numberInput) numberInput.value = selectedCard.number;
+
+					let cvcInput = [...document.querySelectorAll("input")].filter(
+						(input) =>
+							[...input.attributes].filter((item) => item.value.indexOf("cvc") >= 0)
+								.length > 0
+					)[0];
+
+					if (cvcInput) cvcInput.value = selectedCard.cvc;
+
+					let nameInput = [...document.querySelectorAll("input")].filter(
+						(input) =>
+							[...input.attributes].filter((item) => item.value.indexOf("name") >= 0)
+								.length > 0
+					)[0];
+					if (nameInput) nameInput.value = selectedCard.name;
+
+					let expiryInput = [...document.querySelectorAll("input")].filter(
+						(input) =>
+							[...input.attributes].filter(
+								(item) => item.value.indexOf("expiry") >= 0
+							).length > 0
+					)[0];
+					if (expiryInput) expiryInput.value = selectedCard.expiry;
+
+					let monthInput = [...document.querySelectorAll("input")].filter(
+						(input) =>
+							[...input.attributes].filter((item) => item.value.indexOf("month") >= 0)
+								.length > 0
+					)[0];
+					if (monthInput) monthInput.value = selectedCard.expiry.split("/")[0];
+
+					let yearInput = [...document.querySelectorAll("input")].filter(
+						(input) =>
+							[...input.attributes].filter((item) => item.value.indexOf("year") >= 0)
+								.length > 0
+					)[0];
+					if (yearInput) yearInput.value = "20" + selectedCard.expiry.split("/")[1];
+				}, 1000);
 			}
 		});
 	}
-})();
+}
+
+chrome.runtime.onConnect.addListener(function (port) {
+	console.log("content page");
+	port.onMessage.addListener(function (msg) {
+		console.log(msg);
+		if (msg.query === "FILL_CARD_DATA") {
+			fillCardData();
+		}
+	});
+});

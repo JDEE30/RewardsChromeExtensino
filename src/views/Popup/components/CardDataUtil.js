@@ -84,8 +84,8 @@ export function verifyFormData(editCard, storageData, inputData, handleOpenInfoA
 			} else if (
 				inputData.rewards.filter(
 					(reward) =>
-						(reward.category.length === 0 && reward.point.length >= 0) ||
-						(reward.category.length >= 0 && reward.point.length === 0)
+						(reward.category.length === 0 && reward.point.length > 0) ||
+						(reward.category.length > 0 && reward.point.length === 0)
 				).length > 0
 			) {
 				console.log("Invalid reward data!!", inputData);

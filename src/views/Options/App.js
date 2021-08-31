@@ -118,7 +118,11 @@ function App() {
 				</Table>
 			</TableContainer>
 
-			{Object.keys(storageData.card_data).length === 0 && <h2>No Data Found</h2>}
+			{Object.keys(storageData.card_data).length === 0 && (
+				<center>
+					<h2>No Data Found</h2>
+				</center>
+			)}
 		</div>
 	);
 }

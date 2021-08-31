@@ -12,6 +12,7 @@ import {
 	verifyFormData,
 } from "./CardDataUtil";
 import AddCircleOutlined from "@material-ui/icons/AddCircleOutlined";
+import HighlightOffRoundedIcon from "@material-ui/icons/HighlightOffRounded";
 
 const AddCard = (props) => {
 	const { storageData, setStorageData, editCard, setEditCard, handleOpenInfoAlert, setPageNo } =
@@ -38,7 +39,14 @@ const AddCard = (props) => {
 				...storageData,
 				card_data: {
 					...storageData.card_data,
-					[inputData.number]: { ...inputData },
+					[inputData.number]: {
+						...inputData,
+						rewards: [
+							...inputData.rewards.filter(
+								(reward) => reward.category.length > 0 && reward.point.length > 0
+							),
+						],
+					},
 				},
 			};
 			setStorageData(tempStorageData);
@@ -94,6 +102,15 @@ const AddCard = (props) => {
 		setInputData({
 			...inputData,
 			rewards: [...inputData.rewards, { category: "", point: "" }],
+		});
+	};
+
+	const handleDeleteInputClick = (key) => {
+		let temp = inputData.rewards;
+		temp = temp.filter((reward, index) => index !== key);
+		setInputData({
+			...inputData,
+			rewards: [...temp],
 		});
 	};
 
@@ -198,11 +215,11 @@ const AddCard = (props) => {
 							</FormControl>
 						</Grid>
 						<Grid xs={1} item></Grid>
-						<Grid xs={6} item>
+						<Grid xs={5} item>
 							<Input
 								required
 								id={index}
-								type="tel"
+								type="number"
 								name={"reward" + index}
 								autoComplete={false}
 								value={reward.point}
@@ -212,15 +229,26 @@ const AddCard = (props) => {
 								onFocus={handleInputFocus}
 							/>
 						</Grid>
+						<Grid xs={1} item>
+							<Tooltip title="Delete" placement="right">
+								<IconButton
+									size="small"
+									color="secondary"
+									onClick={() => handleDeleteInputClick(index)}
+								>
+									<HighlightOffRoundedIcon />
+								</IconButton>
+							</Tooltip>
+						</Grid>
 					</Grid>
 				</React.Fragment>
 			))}
-			<Tooltip title="Add another" placement="right">
+			<Tooltip title="Add another reward" placement="right">
 				<IconButton
 					size="small"
-					color="secondary"
+					color="primary"
 					onClick={() => handleAddInputClick()}
-					style={{ float: "right" }}
+					style={{ float: "right", right: "-8px" }}
 				>
 					<AddCircleOutlined />
 				</IconButton>
