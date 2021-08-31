@@ -1,39 +1,112 @@
-import { DataGrid } from "@material-ui/data-grid";
 import React, { useEffect, useState } from "react";
-import { getDataFromStorage } from "../../common/storageUtil";
+import { addStorageChangeListener, getDataFromStorage } from "../../common/storageUtil";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { IconButton, makeStyles } from "@material-ui/core";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import EditIcon from "@material-ui/icons/Edit";
 import "./App.css";
+
+const useStyles = makeStyles({
+	table: {
+		minWidth: "70%",
+		maxWidth: "90%",
+		margin: "auto",
+	},
+});
 
 function App() {
 	const [storageData, setStorageData] = useState({ card_data: {} });
+
+	const classes = useStyles();
+
+	const getIconUrlByVendor = (vendor) => {
+		let src = "creditCard.png";
+		switch (vendor) {
+			case "visa":
+				src = "visa.png";
+				break;
+			case "jcb":
+				src = "jcb.png";
+				break;
+			case "mastercard":
+				src = "mastercard.png";
+				break;
+			case "amex":
+				src = "amex.png";
+				break;
+			case "discover":
+				src = "discover.png";
+				break;
+			case "maestro":
+				src = "maestro.png";
+				break;
+			default:
+				break;
+		}
+		return src;
+	};
+
+	addStorageChangeListener((oldChanges, newChanges) => {});
+
 	useEffect(() => {
 		getDataFromStorage().then((response) => {
 			setStorageData(response);
 		});
 	}, []);
 
-	const columns = [
-		{ field: "id", headerName: "ID", width: "200" },
-		{ field: "card_number", headerName: "Card Number", width: "200" },
-		{ field: "card_cvc", headerName: "Card CVC", width: "200" },
-		{ field: "card_vendor", headerName: "Card Vendor", width: "200" },
-		{ field: "card_holder_name", headerName: "Name", width: "200" },
-	];
-
 	return (
-		<div className="card-list" style={{ height: 400, width: "100%" }}>
-			<h1 style={{ textAlign: "center" }}>Card Data Auto Complete</h1>
-			{Object.keys(storageData.card_data).length >= 0 && (
-				<DataGrid
-					rows={Object.values(storageData.card_data).map((card, index) => ({
-						...card,
-						id: index,
-					}))}
-					columns={columns}
-					pageSize={100}
-					rowsPerPageOptions={[10]}
-					disableSelectionOnClick
-				/>
-			)}
+		<div className="card-list">
+			<center>
+				<h1>Rewards</h1>
+			</center>
+			<TableContainer className={classes.table} component={Paper}>
+				<Table aria-label="simple table">
+					<TableHead>
+						<TableRow>
+							<TableCell align="center">
+								<b>Vendor</b>
+							</TableCell>
+							<TableCell align="center">
+								<b>Card Number</b>
+							</TableCell>
+							<TableCell align="center">
+								<b>CVC</b>
+							</TableCell>
+							<TableCell align="center">
+								<b>Name</b>
+							</TableCell>
+							<TableCell align="center">
+								<b>Rewards</b>
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					{Object.keys(storageData.card_data).length > 0 &&
+						Object.values(storageData.card_data).map((card) => (
+							<TableBody>
+								<TableCell align="center">
+									<img src={getIconUrlByVendor(card.issuer)} width="50px" />
+								</TableCell>
+								<TableCell align="center">{card.number}</TableCell>
+								<TableCell align="center">{card.cvc}</TableCell>
+								<TableCell align="center">{card.name}</TableCell>
+								<TableCell align="center">
+									{card.rewards.map((reward) => (
+										<p>
+											{reward.category} : {reward.point}x
+										</p>
+									))}
+								</TableCell>
+							</TableBody>
+						))}
+				</Table>
+			</TableContainer>
+
 			{Object.keys(storageData.card_data).length === 0 && <h2>No Data Found</h2>}
 		</div>
 	);
