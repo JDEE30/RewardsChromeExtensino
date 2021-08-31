@@ -1,12 +1,10 @@
-import Toolbar from "@material-ui/core/Toolbar";
-import Appbar from "@material-ui/core/AppBar";
 import { useEffect, useState } from "react";
-import AddCardButton from "./AddCardButton";
 import { ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
 import CardList from "./CardList";
 import AddCard from "./AddCard";
 import { getDataFromStorage, setDataInStorage } from "../../../common/storageUtil";
 import InfoAlert from "./InfoAlert";
+import Navbar from "./Navbar";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
@@ -43,15 +41,7 @@ const Main = () => {
 
 	return (
 		<div className="Main">
-			<Appbar color="default">
-				<Toolbar>
-					<img src="creditCard.png" width="55px" height="55px" />
-					<span style={{ position: "absolute", right: 8 }}>
-						<AddCardButton pageNo={pageNo} setPageNo={setPageNo} />
-					</span>
-				</Toolbar>
-			</Appbar>
-			<Toolbar />
+			<Navbar pageNo={pageNo} setPageNo={setPageNo} />
 			{pageNo === CARD_LIST_PAGE && (
 				<CardList
 					storageData={storageData}
