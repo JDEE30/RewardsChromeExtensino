@@ -2,19 +2,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Appbar from "@material-ui/core/AppBar";
 import { useEffect, useState } from "react";
 import AddCardButton from "./AddCardButton";
-import { CATEGORY_LIST_PAGE, ADD_CATEGORY_PAGE, BEST_CARD_PAGE, ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
+import { ADD_CARD_PAGE, CARD_LIST_PAGE } from "../../../common/constant";
 import CardList from "./CardList";
 import AddCard from "./AddCard";
 import { getDataFromStorage, setDataInStorage } from "../../../common/storageUtil";
 import InfoAlert from "./InfoAlert";
-import CategoryList from "./CategoryList";
-import AddCategory from "./AddCategory";
-import BestCard from "./BestCard";
 
 const Main = () => {
 	const [pageNo, setPageNo] = useState(0);
-	const [storageData, setStorageData] = useState({ card_data: {}});
-	const [categories, setCategories] = useState([]);
+	const [storageData, setStorageData] = useState({ card_data: {} });
 	const [editCard, setEditCard] = useState(null);
 	const [alertData, setAlertData] = useState({
 		isOpen: false,
@@ -56,27 +52,6 @@ const Main = () => {
 				</Toolbar>
 			</Appbar>
 			<Toolbar />
-			{pageNo === CATEGORY_LIST_PAGE && (
-				<CategoryList
-					categories={categories}
-					setCategories={setCategories}
-					setPageNo={setPageNo}
-				/>
-			)}
-			{pageNo === ADD_CATEGORY_PAGE && (
-				<AddCategory
-					categories={categories}
-					setCategories={setCategories}
-					setPageNo={setPageNo}
-				/>
-			)}
-			{pageNo === BEST_CARD_PAGE && (
-				<BestCard
-					categories={categories}
-					setCategories={setCategories}
-					setPageNo={setPageNo}
-				/>
-			)}
 			{pageNo === CARD_LIST_PAGE && (
 				<CardList
 					storageData={storageData}

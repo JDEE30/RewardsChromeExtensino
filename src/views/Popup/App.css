@@ -5,10 +5,21 @@ body {
 
 .App {
 	width: 320px;
-	height: 410px;
+	height: 450px;
+	overflow: auto;
+}
+
+.bg-image {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
 	background: url("../../assets/side_vector.png") -5% 100% no-repeat,
 		url("../../assets/card_vector.png") 94% 85% no-repeat;
 	background-size: 50px 250px, 134px 200px;
+	opacity: 0.5;
 }
 
 .Main {
@@ -24,9 +35,17 @@ body {
 	padding-right: 15px;
 }
 
+.card-list {
+	overflow: auto;
+}
+
 .no-data-found {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	opacity: 0.3;
+}
+
+.form-actions {
+	margin-top: 15px;
 }

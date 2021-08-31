@@ -2,6 +2,16 @@ import { Button, Grid, Input } from "@material-ui/core";
 import { useState } from "react";
 import { CARD_LIST_PAGE } from "../../../common/constant";
 import { setDataInStorage } from "../../../common/storageUtil";
+import Card from "react-credit-cards";
+import "react-credit-cards/es/styles-compiled.css";
+
+import {
+	formatCreditCardNumber,
+	formatCVC,
+	formatExpirationDate,
+	formatFormData,
+} from "./CardDataUtil";
+import { fns } from "payment";
 
 const AddCard = (props) => {
 	const { storageData, setStorageData, editCard, setEditCard, handleOpenInfoAlert, setPageNo } =
@@ -10,12 +20,12 @@ const AddCard = (props) => {
 		editCard
 			? storageData.card_data[editCard]
 			: {
-					card_number: "",
-					card_cvv: "",
-					card_holder_name: "",
-					card_expiry_date_month: "",
-					card_expiry_date_year: "",
-					card_vendor: "Not specified",
+					number: "",
+					name: "",
+					expiry: "",
+					cvc: "",
+					issuer: "",
+					focused: "",
 			  }
 	);
 
@@ -23,8 +33,8 @@ const AddCard = (props) => {
 		if (Object.values(inputData).reduce((val, item) => val & (item.length > 0), true)) {
 			console.log(inputData);
 			if (
-				(editCard === null && storageData.card_data[inputData.card_number]) ||
-				(editCard && storageData.card_data[editCard].card_number !== inputData.card_number)
+				(editCard === null && storageData.card_data[inputData.number]) ||
+				(editCard && storageData.card_data[editCard].number !== inputData.number)
 			) {
 				console.log("Card already exist!!", inputData);
 				handleOpenInfoAlert("error", "Card already exist!!");
@@ -33,7 +43,7 @@ const AddCard = (props) => {
 					...storageData,
 					card_data: {
 						...storageData.card_data,
-						[inputData.card_number]: { ...inputData },
+						[inputData.number]: { ...inputData },
 					},
 				};
 				setStorageData(tempStorageData);
@@ -54,177 +64,116 @@ const AddCard = (props) => {
 		}
 	};
 
-	const handleCardVendorInput = (number) => {
-		var re = {
-			electron: /^(4026|417500|4405|4508|4844|4913|4917)\d+$/,
-			maestro: /^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/,
-			dankort: /^(5019)\d+$/,
-			interpayment: /^(636)\d+$/,
-			unionpay: /^(62|88)\d+$/,
-			visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-			mastercard: /^5[1-5][0-9]{14}$/,
-			amex: /^3[47][0-9]{13}$/,
-			diners: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-			discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
-			jcb: /^(?:2131|1800|35\d{3})\d{11}$/,
-		};
-
-		for (var key in re) {
-			if (re[key].test(number)) {
-				return key;
-			}
-		}
-
-		return "Not specified";
-	};
-
-	const handleCardNumberInput = (e) => {
-		const onlyNums = e.target.value.replace(/[^0-9]/g, "");
-		const cardVendor = handleCardVendorInput(onlyNums);
-		if (onlyNums.length <= 19) {
-			console.log(onlyNums);
-			setInputData({
-				...inputData,
-				card_number: onlyNums,
-				card_vendor: cardVendor,
-			});
+	const handleCallback = ({ issuer }, isValid) => {
+		if (isValid) {
+			setInputData({ ...inputData, issuer });
 		}
 	};
 
-	const handleCardCvvInput = (e) => {
-		const onlyNums = e.target.value.replace(/[^0-9]/g, "");
-		if (onlyNums.length <= 3) {
-			setInputData({
-				...inputData,
-				card_cvv: onlyNums,
-			});
-		}
+	const handleInputFocus = ({ target }) => {
+		setInputData({
+			...inputData,
+			focused: target.name,
+		});
 	};
 
-	const handleCardExpiryDateYearInput = (e) => {
-		const yearInput = e.target.value.replace(/[^0-9]/g, "");
-
-		if (
-			yearInput.length < 4 ||
-			(yearInput.length === 4 &&
-				((inputData.card_expiry_date_month === "" &&
-					parseInt(yearInput) >= new Date().getFullYear()) ||
-					(parseInt(inputData.card_expiry_date_month) >= new Date().getMonth() &&
-						parseInt(yearInput) >= new Date().getFullYear()) ||
-					(parseInt(inputData.card_expiry_date_month) < new Date().getMonth() &&
-						parseInt(yearInput) > new Date().getFullYear())))
-		) {
-			setInputData({
-				...inputData,
-				card_expiry_date_year: yearInput,
-			});
+	const handleInputChange = ({ target }) => {
+		if (target.name === "number") {
+			target.value = formatCreditCardNumber(target.value);
+		} else if (target.name === "expiry") {
+			target.value = formatExpirationDate(target.value);
+		} else if (target.name === "cvc") {
+			target.value = formatCVC(target.value);
 		}
-	};
 
-	const handleCardExpiryDateMonthInput = (e) => {
-		const monthInput = e.target.value.replace(/[^0-9]/g, "");
-
-		if (monthInput === "" || parseInt(monthInput) <= 12) {
-			setInputData({
-				...inputData,
-				card_expiry_date_month: monthInput,
-			});
-		}
+		setInputData({ ...inputData, [target.name]: target.value });
 	};
 
 	return (
-		<fieldset style={{ borderRadius: "10px", borderColor: "#3f51b5" }}>
-			<legend style={{ fontSize: 16 }}>
-				<b>Add Card</b>
-			</legend>
-			<div class="add-card">
-				<br />
-				<b style={{ color: "gray", fontSize: 15 }}>Card vendor: </b>{" "}
-				<b style={{ fontSize: 15 }}>{inputData.card_vendor}</b>
-				<br />
-				<br />
-				<Input
-					id="card-number"
-					required
-					disabled={!(editCard === null)}
-					color={
-						inputData.card_number.length === 0
-							? "default"
-							: inputData.card_number.length >= 7
-							? "primary"
-							: "secondary"
-					}
-					value={inputData.card_number.replace(/\d{4}(?=.)/g, "$& ")}
-					placeholder="Card Number"
-					fullWidth={true}
-					onChange={(e) => handleCardNumberInput(e)}
-				/>
-				<br />
-				<br />
-				<Input
-					id="card-cvv"
-					required
-					color="default"
-					value={inputData.card_cvv}
-					placeholder="CVV"
-					fullWidth={true}
-					onChange={(e) => handleCardCvvInput(e)}
-				/>
-				<br />
-				<br />
-				<Input
-					id="card-holder-name"
-					required
-					color="default"
-					value={inputData.card_holder_name}
-					placeholder="Card Holder Name"
-					fullWidth={true}
-					onChange={(e) =>
-						setInputData({
-							...inputData,
-							card_holder_name: e.target.value,
-						})
-					}
-				/>
-				<br />
-				<br />
-				<b style={{ color: "gray" }}>Expiration date: </b>
-				<br />
-				<Grid container>
-					<Grid xs={6} item>
-						<Input
-							id="card-expiration-date-year"
-							required
-							color="default"
-							value={inputData.card_expiry_date_year}
-							placeholder="Year"
-							onChange={(e) => handleCardExpiryDateYearInput(e)}
-						/>
-					</Grid>
-					<Grid xs={1} item></Grid>
-					<Grid xs={5} item>
-						<Input
-							id="card-expiration-date-month"
-							required
-							color="default"
-							value={inputData.card_expiry_date_month}
-							placeholder="Month"
-							onChange={(e) => handleCardExpiryDateMonthInput(e)}
-						/>
-					</Grid>
+		<div className="add-card">
+			<center>
+				<h2>Add Card</h2>
+			</center>
+			<Card
+				number={inputData.number}
+				name={inputData.name}
+				expiry={inputData.expiry}
+				cvc={inputData.cvc}
+				focused={inputData.focused}
+				callback={handleCallback}
+			/>
+			<br />
+			<br />
+			<Input
+				required
+				disabled={!(editCard === null)}
+				id="card-number"
+				type="tel"
+				name="number"
+				value={inputData.number}
+				pattern="[\d| ]{16,22}"
+				placeholder="Card Number"
+				fullWidth={true}
+				onChange={handleInputChange}
+				onFocus={handleInputFocus}
+			/>
+			<br />
+			<br />
+			<Input
+				required
+				id="card-holder-name"
+				type="text"
+				name="name"
+				value={inputData.name}
+				placeholder="Card Holder Name"
+				fullWidth={true}
+				onChange={handleInputChange}
+				onFocus={handleInputFocus}
+			/>
+			<br />
+			<br />
+			<Grid container>
+				<Grid xs={6} item>
+					<Input
+						required
+						id="card-expiry-date"
+						type="tel"
+						name="expiry"
+						value={inputData.expiry}
+						placeholder="Valid Thru"
+						pattern="\d\d/\d\d"
+						onChange={handleInputChange}
+						onFocus={handleInputFocus}
+					/>
 				</Grid>
-				<br />
-				<br />
-				<Button
-					variant="contained"
-					size="small"
-					color="primary"
-					onClick={() => handleInputDataSubmit()}
-				>
-					Save Card
-				</Button>
-			</div>
-		</fieldset>
+				<Grid xs={1} item></Grid>
+				<Grid xs={5} item>
+					<Input
+						required
+						id="card-cvv"
+						type="tel"
+						name="cvc"
+						value={inputData.cvv}
+						placeholder="CVV"
+						fullWidth={true}
+						pattern="\d{3,4}"
+						onChange={handleInputChange}
+						onFocus={handleInputFocus}
+					/>
+				</Grid>
+			</Grid>
+			<input type="hidden" name="issuer" value={inputData.issuer} />
+			<br />
+			<br />
+			<Button
+				variant="contained"
+				size="small"
+				color="primary"
+				onClick={() => handleInputDataSubmit()}
+			>
+				Save Card
+			</Button>
+		</div>
 	);
 };
 
