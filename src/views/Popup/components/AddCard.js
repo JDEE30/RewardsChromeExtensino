@@ -1,7 +1,6 @@
 import { Button, Grid, Input } from "@material-ui/core";
 import { useState } from "react";
 import { CARD_LIST_PAGE } from "../../../common/constant";
-import { setDataInStorage } from "../../../common/storageUtil";
 import Card from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 
@@ -20,14 +19,17 @@ const AddCard = (props) => {
 		editCard
 			? storageData.card_data[editCard]
 			: {
-					number: "",
-					name: "",
-					expiry: "",
-					cvc: "",
-					issuer: "",
-					focused: "",
-			  }
+				number: "",
+				name: "",
+				expiry: "",
+				cvc: "",
+				issuer: "",
+				rewards: [],
+				focused: "",
+			}
 	);
+
+	const categoryData = storageData.category_data;
 
 	const handleInputDataSubmit = () => {
 		if (Object.values(inputData).reduce((val, item) => val & (item.length > 0), true)) {
@@ -47,14 +49,12 @@ const AddCard = (props) => {
 					},
 				};
 				setStorageData(tempStorageData);
-				setDataInStorage(tempStorageData).then(() => {
-					console.log("storage data updated!!");
-					if (editCard) {
-						handleOpenInfoAlert("success", "Card edited successfully!!");
-					} else {
-						handleOpenInfoAlert("success", "Card added successfully!!");
-					}
-				});
+				console.log("storage data updated!!");
+				if (editCard) {
+					handleOpenInfoAlert("success", "Card edited successfully!!");
+				} else {
+					handleOpenInfoAlert("success", "Card added successfully!!");
+				}
 				setPageNo(CARD_LIST_PAGE);
 				setEditCard(null);
 			}
@@ -92,7 +92,7 @@ const AddCard = (props) => {
 	return (
 		<div className="add-card">
 			<center>
-				<h2>Add Card</h2>
+				<h2>{editCard ? "Edit Card" : "Add Card"}</h2>
 			</center>
 			<Card
 				number={inputData.number}
@@ -110,6 +110,7 @@ const AddCard = (props) => {
 				id="card-number"
 				type="tel"
 				name="number"
+				autoComplete={false}
 				value={inputData.number}
 				pattern="[\d| ]{16,22}"
 				placeholder="Card Number"
@@ -124,6 +125,7 @@ const AddCard = (props) => {
 				id="card-holder-name"
 				type="text"
 				name="name"
+				autoComplete={false}
 				value={inputData.name}
 				placeholder="Card Holder Name"
 				fullWidth={true}
@@ -139,6 +141,7 @@ const AddCard = (props) => {
 						id="card-expiry-date"
 						type="tel"
 						name="expiry"
+						autoComplete={false}
 						value={inputData.expiry}
 						placeholder="Valid Thru"
 						pattern="\d\d/\d\d"
@@ -153,6 +156,7 @@ const AddCard = (props) => {
 						id="card-cvv"
 						type="tel"
 						name="cvc"
+						autoComplete={false}
 						value={inputData.cvv}
 						placeholder="CVV"
 						fullWidth={true}
@@ -165,6 +169,38 @@ const AddCard = (props) => {
 			<input type="hidden" name="issuer" value={inputData.issuer} />
 			<br />
 			<br />
+			{/* <Grid container>
+				<Grid xs={6} item>
+					<Input
+						required
+						id="card-reward-point"
+						type="tel"
+						name="reward"
+						autoComplete={false}
+						value={inputData.reward}
+						placeholder="Reward point"
+						pattern="\d+"
+						onChange={handleInputChange}
+						onFocus={handleInputFocus}
+					/>
+				</Grid>
+				<Grid xs={1} item></Grid>
+				<Grid xs={5} item>
+					<InputLabel id="card-category-label">Age</InputLabel>
+					<Select
+						required
+						labelId="card-category-label"
+						id="card-category"
+						name="category"
+						value={inputData.category}
+						onChange={handleChange}
+					>
+						<MenuItem value={10}>Ten</MenuItem>
+					</Select>
+				</Grid>
+			</Grid>
+			<br />
+			<br /> */}
 			<Button
 				variant="contained"
 				size="small"
@@ -173,6 +209,7 @@ const AddCard = (props) => {
 			>
 				Save Card
 			</Button>
+			<br />
 		</div>
 	);
 };

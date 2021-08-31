@@ -13,7 +13,6 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
 import React, { useState } from "react";
 import { ADD_CARD_PAGE } from "../../../common/constant";
-import { setDataInStorage } from "../../../common/storageUtil";
 import NoDataFound from "./NoDataFound";
 
 const CardList = (props) => {
@@ -67,10 +66,8 @@ const CardList = (props) => {
 				.reduce((obj, card) => ({ ...obj, [card[0]]: card[1] }), {}),
 		};
 		setStorageData(tempStorageData);
-		setDataInStorage(tempStorageData).then(() => {
-			console.log("storage data updated!!");
-			handleOpenInfoAlert("success", "Card deleted successfully!!");
-		});
+		console.log("storage data updated!!");
+		handleOpenInfoAlert("success", "Card deleted successfully!!");
 	};
 
 	const handleDeleteCardConfirmationDialog = () => (
