@@ -46,6 +46,15 @@ const CardList = (props) => {
 			case "hipercard":
 				src = "hipercard.png";
 				break;
+			case "elo":
+				src = "elo.png";
+				break;
+			case "dinersclub":
+				src = "dinersclub.png";
+				break;
+			case "unionpay":
+				src = "unionpay.png";
+				break;
 			default:
 				break;
 		}
