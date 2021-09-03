@@ -43,6 +43,9 @@ const CardList = (props) => {
 			case "maestro":
 				src = "maestro.png";
 				break;
+			case "hipercard":
+				src = "hipercard.png";
+				break;
 			default:
 				break;
 		}
