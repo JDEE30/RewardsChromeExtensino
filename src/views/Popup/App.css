@@ -48,3 +48,7 @@ body {
     border-radius: 10px !important;
     border: 1px solid hsla(0,0%,100%,.18);
 }
+
+b {
+    text-transform:capitalize;
+}
