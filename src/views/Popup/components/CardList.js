@@ -127,7 +127,7 @@ const CardList = (props) => {
 			{Object.keys(storageData.card_data).length > 0 && (
 				<React.Fragment>
 					{Object.values(storageData.card_data).map((card) => (
-						<Card
+						<Card className="glass-cards"
 							key={card.number}
 							style={{ marginBottom: 5 }}
 							onMouseEnter={(e) => toggleControlBtnVisibility(e)}

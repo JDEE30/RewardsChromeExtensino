@@ -40,3 +40,11 @@ body {
 .form-actions {
 	margin-top: 15px;
 }
+
+.glass-cards {
+	background: hsla(0,0%,100%,.35) !important;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px) !important;
+    border-radius: 10px !important;
+    border: 1px solid hsla(0,0%,100%,.18);
+}
