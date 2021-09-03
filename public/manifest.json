@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name": "Card data autocomplete",
+	"name": "Rewards",
 	"version": "0.1",
 	"description": "Autocomplete card data in amazon",
 	"permissions": ["tabs", "storage", "unlimitedStorage"],
