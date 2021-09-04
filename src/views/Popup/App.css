@@ -1,0 +1,54 @@
+body {
+	margin: 0px;
+	padding: 5px;
+	background: url("../../assets/side_vector.png") -5% 100% no-repeat,
+		url("../../assets/card_vector.png") 94% 85% no-repeat;
+	background-size: 50px 250px, 134px 200px;
+	background-attachment: fixed;
+}
+
+.App {
+	width: 320px;
+	height: 450px;
+	overflow: auto;
+}
+
+.Main {
+	height: 100%;
+}
+
+::-webkit-scrollbar {
+	width: 0px;
+}
+
+.add-card {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.card-list {
+	overflow: auto;
+}
+
+.no-data-found {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0.3;
+}
+
+.form-actions {
+	margin-top: 15px;
+}
+
+.glass-cards {
+	background: hsla(0,0%,100%,.35) !important;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px) !important;
+    border-radius: 10px !important;
+    border: 1px solid hsla(0,0%,100%,.18);
+}
+
+b {
+    text-transform:capitalize;
+}

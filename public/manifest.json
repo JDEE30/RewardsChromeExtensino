@@ -1,0 +1,28 @@
+{
+	"manifest_version": 2,
+	"name": "Rewards",
+	"version": "0.1",
+	"description": "Rewards selects the best card for the selected category. It does the tedious calculaton so you don't have to.",
+	"permissions": ["tabs", "storage", "unlimitedStorage"],
+	"background": {
+		"scripts": ["static/js/background.js"]
+	},
+	"content_scripts": [
+		{
+			"js": ["static/js/content.js"],
+			"matches": ["http://*/*", "https://*/*"],
+			"all_frames": true
+		}
+	],
+	"icons": {
+		"192": "logo128.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"192": "logo128.png"
+		},
+		"default_title": "Popup",
+		"default_popup": "popup.html"
+	},
+	"options_page": "options.html"
+}
