@@ -1,4 +1,8 @@
 import { PROJECT_NAME } from "./common/constant";
+import ExtPay from 'extpay';
+
+const extpay = ExtPay('reward-dev');
+extpay.startBackground();
 
 console.log("Hello Background");
 const msgToContent = (port, msg) => {
