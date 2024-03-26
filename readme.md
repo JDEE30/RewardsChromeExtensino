@@ -23,3 +23,6 @@ You can choose your favorite card based on it's rewards value
 6. shop!
 
 
+### Try it now! 
+
+https://chromewebstore.google.com/detail/rewards/dcmhfjomdegnpgkaahblegjpnppollhc
