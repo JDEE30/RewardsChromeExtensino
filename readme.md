@@ -3,7 +3,7 @@
 
 #### Get cc data
 
-We pull cc data when you login to your bank
+We pull credit card data when you login to your bank
 
 
 
@@ -12,19 +12,14 @@ We pull cc data when you login to your bank
 You can choose your favorite card based on it's rewards value
 
 
-#### BETA 
-
-This is still in beta, I plan to have it complete for a few weeks... 
-
-Don't use it as a working extension untill this readme.md is updated please.
-
     
 ###### Explanation of how extension works
 
 1. You first click the extension in your browser
 2. click the rewards extension
 3. Click "login with your bank"
-4. Choose your bank (implementing this later)
-5. Login to capitol one.
+4. Choose your bank 
+5. choose preferences
+6. shop!
 
 
